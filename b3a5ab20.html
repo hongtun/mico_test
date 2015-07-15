@@ -35,7 +35,18 @@
 <div id="debug"></div>
 
 <div class="bar-footer" style="bottom:0;position:absolute;width:100%">
-	  <div class="item item-input-inset">
+	  <div width=100%>
+          <p id="wendu">
+            温度：
+          </p>
+         <p id="shidu">
+            湿度：
+         </p>
+      </div>
+      <div width=100%>
+          <img src="https://raw.githubusercontent.com/chazshi/MicoDemo/master/我爱上海.jpg" width="auto" height="auto">
+      </div>
+      <div class="item item-input-inset">
 	    <label class="item-input-wrapper">
 	      <input type="text" placeholder="message" id="message">
 	    </label>
@@ -130,6 +141,7 @@ function ez_connect(device_id) {
     }
     function onMessageArrived(message) {
         console.log(message.payloadString);
+        xianshiwendu();
     }
 
     var inputMessage = document.getElementById('message');
@@ -193,6 +205,18 @@ function ez_connect(device_id) {
     }
     document.querySelector('#led_blue').addEventListener('touchstart', led_blue);
     document.querySelector('#led_blue').addEventListener('click', led_blue);
+
+    function xianshiwendu() {
+        if ( inputMessage.value.length == 0 ) return;
+
+        client.publish(device_id+'/in/read', inputMessage.value);
+        console.log(inputMessage.value);
+        inputMessage.value = '';
+        document.getElementById("wendu").text = "温度："+inputMessage;
+        //setTimeout("xianshiwendu()",1000*5);
+    }
+    document.querySelector('#xianshiwendu').addEventListener('touchstart', xianshiwendu);
+    document.querySelector('#xianshiwendu').addEventListener('click', xianshiwendu);
 }
 
 </script>
